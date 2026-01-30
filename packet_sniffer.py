@@ -1,12 +1,14 @@
 from scapy.all import sniff, Raw
 
 
+chars = []
+
+
 def packet_handler(pkt):
     """
     Sniff the network packet, load the byte and decode it.
     Append it into chars array to see the data.
     """
-    chars = []
     if pkt.haslayer(Raw):
         flag_byte = pkt[Raw].load
         chars.append(flag_byte.decode("utf-8"))
