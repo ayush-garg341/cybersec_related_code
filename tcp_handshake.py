@@ -15,6 +15,7 @@ syn = TCP(sport=sport, dport=dport, flags="S", seq=31337)
 
 print("[*] Sending SYN")
 
+# send & receive 1 packet
 synack = sr1(ip / syn, timeout=2, verbose=False)
 
 if synack is None:
@@ -36,4 +37,31 @@ ack = TCP(sport=sport, dport=dport, flags="A", seq=synack.ack, ack=synack.seq + 
 
 print("[*] Sending ACK (Handshake complete)")
 
+# Fire-and-forget - sends packets, does not wait
 send(ip / ack, verbose=False)
+
+# STEP 4: Optional send data
+payload = b"Hello from scapy"
+
+# PA : push + ack
+data = TCP(sport=sport, dport=dport, flags="PA", seq=ack.seq, ack=ack.ack) / payload
+
+print("[*] Sending TCP data")
+send(ip / data, verbose=False)
+
+# OPTIONAL: CLOSE CONNECTION
+
+# FA: fin + ack
+
+fin = TCP(
+    sport=sport,
+    dport=dport,
+    flags="FA",
+    seq=data.seq + len(payload),
+    ack=data.ack,
+)
+
+print("[*] Sending FIN")
+send(ip / fin, verbose=False)
+
+print("[✓] Done")
