@@ -43,6 +43,8 @@ send(ip / ack, verbose=False)
 # STEP 4: Optional send data
 payload = b"Hello from scapy"
 
+# you do NOT increment the ACK number when you send data.
+# You increment the ACK number when you ACK data that you received.
 # PA : push + ack
 data = TCP(sport=sport, dport=dport, flags="PA", seq=ack.seq, ack=ack.ack) / payload
 
@@ -65,3 +67,8 @@ print("[*] Sending FIN")
 send(ip / fin, verbose=False)
 
 print("[✓] Done")
+
+# SEQ tracks bytes you send.
+# SEQ advances when you send.
+# ACK tracks bytes you have received.
+# ACK advances when you receive.
