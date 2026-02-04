@@ -1,6 +1,6 @@
 import socket
 
-dst_addr = "10.0.0.2"
+dst_addr = "127.0.0.1"
 dst_port = 31337
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -15,16 +15,3 @@ except socket.timeout:
     print("No response from server")
 
 sock.close()
-
-
-from scapy.all import IP, UDP, sr1
-
-sport = 31337
-
-pkt = IP(dst=dst_addr) / UDP(sport=sport, dport=dst_port) / b"Hello, World!\n"
-reply = sr1(pkt, timeout=10, verbose=False)
-
-if reply:
-    print(bytes(reply[UDP].payload))
-else:
-    print("No reply")
