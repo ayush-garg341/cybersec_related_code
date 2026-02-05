@@ -104,3 +104,30 @@ def verify_arp_poisoning(b_ip, c_ip, iface="eth0"):
 
 # Run it
 verify_arp_poisoning("10.0.0.2", "10.0.0.3", "eth0")
+
+"""
+class ClientHost(Host):
+    def entrypoint(self):
+        while True:
+            time.sleep(1)
+            try:
+                client_socket = socket.socket()
+                client_socket.connect(("10.0.0.3", 31337))
+                client_socket.sendall("some_secret")
+                client_socket.close()
+            except (OSError, ConnectionError, TimeoutError):
+                continue
+
+class ServerHost(Host):
+    def entrypoint(self):
+        server_socket = socket.socket()
+        server_socket.bind(("0.0.0.0", 31337))
+        server_socket.listen()
+        while True:
+            try:
+                connection, _ = server_socket.accept()
+                connection.recv(1024)
+                connection.close()
+            except ConnectionError:
+                continue
+"""
