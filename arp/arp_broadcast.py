@@ -19,3 +19,6 @@ ans, _ = srp(pkt, iface=iface, timeout=2, verbose=False)
 
 for _, reply in ans:
     print("IP:", reply.psrc, "MAC:", reply.hwsrc)
+
+# ARP requests (broadcast)
+# ARP replies (unicast)
