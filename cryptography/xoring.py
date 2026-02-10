@@ -1,3 +1,14 @@
+def get_message_ascii():
+    while True:
+        inp = input("Enter the encrypted message and secret key separated by spaces ")
+        inputs = inp.split(" ")
+        enc_char = inputs[0]
+        key = int(inputs[1], 16)
+        enc_char_hex = int(hex(ord(enc_char)), 16)
+        plain_mess = key ^ enc_char_hex
+        print(chr(plain_mess))
+
+
 def get_message_hex():
     while True:
         inp = input("Enter the secret key and encrypted message, separated by spaces ")
@@ -12,4 +23,5 @@ def get_message_hex():
 
 
 if __name__ == "__main__":
-    get_message_hex()
+    # get_message_hex()
+    get_message_ascii()
