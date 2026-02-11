@@ -1,3 +1,16 @@
+from Crypto.Util.strxor import strxor
+
+
+def get_message_string():
+    while True:
+        inp = input("Enter the encrypted message and secret key separated by spaces ")
+        inputs = inp.split(" ")
+        enc_str = inputs[0].encode()
+        key = inputs[1].encode()
+        plain_mess = strxor(enc_str, key)
+        print("The plain message", plain_mess)
+
+
 def get_message_ascii():
     while True:
         inp = input("Enter the encrypted message and secret key separated by spaces ")
@@ -24,4 +37,5 @@ def get_message_hex():
 
 if __name__ == "__main__":
     # get_message_hex()
-    get_message_ascii()
+    # get_message_ascii()
+    get_message_string()
