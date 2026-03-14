@@ -1,0 +1,34 @@
+from Crypto.Util.number import inverse
+
+p_hex = "0xf3aad228fb26b4636184ee662915c72db8736dd053475efb6c614bf76e097104d5e23b119cbad99dafba318c072c5c844a01b469f891338706d305af4b652e561e3fb94840c937801aa569d041ee85b8d2d507b9c6cd21aeddc6e4da3989c1970dfe4e80f7639cb7afee4a4cae21f7b31a1b4e1457dee4f4759c0f404cb6b517"
+
+q_hex = "0xf3c9098050109cf59245aa4b1c49b20829f9c39125479ebd4825bb5b3d7f04327ffa4b2b9b5d64763ead56d6520a84d1921a817abad30dd5a406d14f17d87e100f294601d767bd0178c408ae4c40c7ce526e688bd9480a46d6836bc86463733f7b9b9109583f4f6be5977727e78e5e34288acd5503f56d0ae0a4b41da4ca3e9d"
+
+e_hex = "0x10001"
+
+p = int(p_hex, 16)
+q = int(q_hex, 16)
+e = int(e_hex, 16)
+
+n = p * q
+phi = (p - 1) * (q - 1)
+
+d = inverse(e, phi)
+
+ct = "007cb1ce35f1cccf5e0fb754856c6e32ac333eafe99f5ee0a391360025157e6dd019041fd859e2961100fba0b39887ac40d47ada130dafbff33b6b96bb63f8dbc7925f43b9d628138a134573ebeabbef22c6e5abeb67936765432c07682621e1a37f50010a8dfe4a16d0f61711862206472c5e97f5e42b6627d027b0dc185282e6f57b6f688757ffdda649555e762b9dfcec5fa29e58577209f5550ec7a79ac6c975981375221fbed722928c8ec5a05251e04840561e34e19978b4f872122931cd3c822a5652c1f23b45ffe6aea7ce290a72c09377d48456d6ff9fe53a55065788f5e2d95f636f2e0eb4408ece5529007c357da116a6ee05c3aa1578bfae93e1"
+
+ct = bytes.fromhex(ct)
+
+# Little here means little endian
+# step 1
+ct = int.from_bytes(ct, "little")
+
+# step 2
+m = pow(ct, d, n)
+
+print("Raw message m:: ", m)
+
+# step 3
+flag = m.to_bytes(256, "little").rstrip(b"\x00")
+
+print("Flag plaintext (ascii)", flag.decode("ascii"))
