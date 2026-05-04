@@ -36,3 +36,5 @@ int main(int argc, char *argv[])
 
 // strace ./cat cat.c
 
+// objdump -d ./cat -M intel -> intel assembly for the binary
+// nm -D ./cat -> to get all the symbols in the cat binary
